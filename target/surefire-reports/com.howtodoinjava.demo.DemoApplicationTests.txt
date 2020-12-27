@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.howtodoinjava.demo.DemoApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 24.081 s - in com.howtodoinjava.demo.DemoApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.803 s - in com.howtodoinjava.demo.DemoApplicationTests
