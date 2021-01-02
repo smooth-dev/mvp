@@ -6,11 +6,11 @@
 Comment utiliser le projet : 
 <br />
 
-## Supprimer les deux fichier Screenshot dans le dossier target ##
-## lancer maven:clean install  ##
-## aller sur http://localhost:9090/article/ ##
+##  1 .Supprimer les deux fichier Screenshot dans le dossier target ##
+##  2. lancer maven:clean install  ##
+##  3. aller sur http://localhost:9090/article/ ##
  
-## dans les champs du formulaire indiquez "Client" ou "Admin" dans tout les champs , et vous serez connecté ##
+##  4. dans les champs du formulaire indiquez "Client" ou "Admin" dans tout les champs , et vous serez connecté ##
 
 
 
