@@ -6,7 +6,8 @@
 Comment utiliser le projet : 
 <br />
 
-## clean install avant de lancer ##
+## Supprimer les deux fichier Screenshot dans le dossier target ##
+## lancer maven:clean install  ##
 ## aller sur http://localhost:9090/article/ ##
  
 ## dans les champs du formulaire indiquez "Client" ou "Admin" dans tout les champs , et vous serez connecté ##
