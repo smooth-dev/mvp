@@ -28,7 +28,7 @@ Comment utiliser le projet :
 
 
  prochaines modifications:                    | 
--------------                                   | 
+-------------                                   | ------------------------
 Ajouter les VO                                  |  DONE
 Ajouter swagger pour documenter l'API           | 
 Ajouter des regles de gestions (logique metier) |
