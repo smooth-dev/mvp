@@ -10,6 +10,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.ecommerceJee.demo.domaine.ArticleConverter;
+import com.ecommerceJee.demo.domaine.ArticleVo;
 import com.ecommerceJee.demo.exception.RecordNotFoundException;
 import com.ecommerceJee.demo.model.Article;
 import com.ecommerceJee.demo.repository.ArticleRepository;
@@ -20,14 +22,14 @@ public class ArticleService
 	 @Autowired
 	    ArticleRepository repository;
 	 
-	 public List<Article> getAllArticles()
+	 public List<ArticleVo> getAllArticles()
 	    {
-	        List<Article> articleList = repository.findAll();
+	        List<ArticleVo> articleList = ArticleConverter.toVoList(repository.findAll());
 	         
 	        if(articleList.size() > 0) {
 	            return articleList;
 	        } else {
-	            return new ArrayList<Article>();
+	            return new ArrayList<ArticleVo>();
 	        }
 	    }
 //	 public Article getArticleById(Integer id) throws RecordNotFoundException
@@ -41,14 +43,14 @@ public class ArticleService
 //	        }
 //	    }
 	 
-	   public Article getArticleById(Integer id) {
+	   public ArticleVo getArticleById(Integer id) {
 			boolean trouve = repository.existsById(id);
 			if (!trouve)
 				return null;
-			return repository.getOne(id);
+			return ArticleConverter.toVo(repository.getOne(id));
 		}
 	 
-	 public Article createOrUpdateArticle(Article entity) throws RecordNotFoundException
+	 public ArticleVo createOrUpdateArticle(ArticleVo entity) throws RecordNotFoundException
 	    {
 	        Optional<Article> article = repository.findById(entity.getId());
 	         
@@ -63,35 +65,34 @@ public class ArticleService
 	 
 	            newEntity = repository.save(newEntity);
 	             
-	            return newEntity;
+	            return entity;
 	        } else {
-	            entity = repository.save(entity);
-	             
+	            repository.save(ArticleConverter.toBo(entity));
 	            return entity;
 	        }
 	    }
 	 
 	 
-	 public List<Article> getAllArticles(int pageId, int size) {
+	 public List<ArticleVo> getAllArticles(int pageId, int size) {
 			Page<Article> result = repository.findAll(PageRequest.of(pageId, size, Direction.ASC, "libelle"));
-			return result.getContent();
+			return ArticleConverter.toVoList(result.getContent());
 		}
 	 
-	 public List<Article> findByLibelle(String libelle) {
+	 public List<ArticleVo> findByLibelle(String libelle) {
 			List<Article> list = repository.findByLibelle(libelle);
-			return list;
+			return ArticleConverter.toVoList(list);
 		}
-	 public List<Article> sortBy(String fieldName) {
+	 public List<ArticleVo> sortBy(String fieldName) {
 		 List<Article>  list =repository.findAll(Sort.by(fieldName));
-		return list;
+			return ArticleConverter.toVoList(list);
 	}
 	 
 		 
 	 @Transactional
-	    public void save(Article entity) 
+	    public Article save(Article entity) 
 	    {
 	       
-	            repository.save(entity);     
+	           return repository.save(entity);     
 	        
 	    }
 	 

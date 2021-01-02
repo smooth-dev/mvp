@@ -2,7 +2,7 @@
 
 
 <h1>Add New User</h1>
-<form:form method="post" action="save" modelAttribute="empVo">
+<form:form method="post" action="/login" modelAttribute="userVo">
 	<table>
 		<tr>
 			<td>libelle :</td>

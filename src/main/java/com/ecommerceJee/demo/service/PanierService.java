@@ -10,6 +10,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.ecommerceJee.demo.domaine.ArticleConverter;
+import com.ecommerceJee.demo.domaine.PanierConverter;
+import com.ecommerceJee.demo.domaine.PanierVo;
+import com.ecommerceJee.demo.domaine.UserConverter;
 import com.ecommerceJee.demo.exception.RecordNotFoundException;
 import com.ecommerceJee.demo.model.Panier;
 import com.ecommerceJee.demo.repository.PanierRepository;
@@ -20,77 +24,76 @@ public class PanierService
 	 @Autowired
 	    PanierRepository repository;
 	 
-	 public List<Panier> getAllPaniers()
+	 public List<PanierVo> getAllPaniers()
 	    {
-	        List<Panier> articleList = repository.findAll();
+	        List<PanierVo> panierList = PanierConverter.toVoList(repository.findAll());
 	         
-	        if(articleList.size() > 0) {
-	            return articleList;
+	        if(panierList.size() > 0) {
+	            return panierList;
 	        } else {
-	            return new ArrayList<Panier>();
+	            return new ArrayList<PanierVo>();
 	        }
 	    }
 //	 public Panier getPanierById(Integer id) throws RecordNotFoundException
 //	    {
-//	        Optional<Panier> article = repository.findById(id);
+//	        Optional<Panier> panier = repository.findById(id);
 //	         
-//	        if(article.isPresent()) {
-//	            return article.get();
+//	        if(panier.isPresent()) {
+//	            return panier.get();
 //	        } else {
 //	            throw new RecordNotFoundException("No Panier record exist for given id");
 //	        }
 //	    }
 	 
-	   public Panier getPanierById(Integer id) {
+	   public PanierVo getPanierById(Integer id) {
 			boolean trouve = repository.existsById(id);
 			if (!trouve)
 				return null;
-			return repository.getOne(id);
+			return PanierConverter.toVo(repository.getOne(id));
 		}
 	 
-	 public Panier createOrUpdatePanier(Panier entity) throws RecordNotFoundException
+	 public PanierVo createOrUpdatePanier(PanierVo entity) throws RecordNotFoundException
 	    {
-	        Optional<Panier> article = repository.findById(entity.getId());
+	        Optional<Panier> panier = repository.findById(entity.getId());
 	         
-	        if(article.isPresent())
+	        if(panier.isPresent())
 	        {
-	            Panier newEntity = article.get();
-	            newEntity.setUser(entity.getUser());
-	            newEntity.setArticles(entity.getArticles());
-	         
+	            Panier newEntity = panier.get();
+	            newEntity.setUser(UserConverter.toBo(entity.getUser()));
+	            newEntity.setArticles(ArticleConverter.toBoList(entity.getArticles()));
 
 	 
 	            newEntity = repository.save(newEntity);
 	             
-	            return newEntity;
+	            return entity;
 	        } else {
-	            entity = repository.save(entity);
-	             
+	            repository.save(PanierConverter.toBo(entity));
 	            return entity;
 	        }
 	    }
 	 
 	 
-	 public List<Panier> getAllPaniers(int pageId, int size) {
-			Page<Panier> result = repository.findAll(PageRequest.of(pageId, size, Direction.ASC, "user_ID"));
-			return result.getContent();
+	 public List<PanierVo> getAllPaniers(int pageId, int size) {
+			Page<Panier> result = repository.findAll(PageRequest.of(pageId, size, Direction.ASC, "libelle"));
+			return PanierConverter.toVoList(result.getContent());
 		}
 	 
-	 public Optional<Panier> findById(Integer id_user) {
-			Optional<Panier> list = repository.findById(id_user);
-			return list;
+	 public List<PanierVo> findByUser(String libelle) {
+			List<Panier> list = repository.findByUser(libelle);
+			return PanierConverter.toVoList(list);
 		}
-	 public List<Panier> sortBy(String fieldName) {
+	 
+	 public List<PanierVo> sortBy(String fieldName) {
 		 List<Panier>  list =repository.findAll(Sort.by(fieldName));
-		return list;
+			return PanierConverter.toVoList(list);
 	}
 	 
 		 
 	 @Transactional
-	    public void save(Panier entity) 
+	    public Panier save(Panier entity) 
 	    {
 	       
-	            repository.save(entity);     
+	            return repository.save(entity);     
 	        
 	    }
 	 

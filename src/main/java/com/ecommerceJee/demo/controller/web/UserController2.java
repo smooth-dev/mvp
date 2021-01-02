@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import com.ecommerceJee.demo.domaine.UserConverter;
+import com.ecommerceJee.demo.domaine.UserVo;
 import com.ecommerceJee.demo.model.User;
 import com.ecommerceJee.demo.service.UserService;
 
@@ -35,30 +37,30 @@ public class UserController2 {
 	}
 	
 	@PostMapping(value = "/save")
-	public String save(@ModelAttribute("empVo") User emp) {
+	public String save(@ModelAttribute("empVo") UserVo emp) {
 		
-				service.save(emp);
+				service.save(UserConverter.toBo(emp));
 		return "redirect:viewuser";// will redirect to viewuser request mapping
 	}
 	
 	@RequestMapping("/viewuser")
 	public String viewuser(Model m) {
-		List<User> list = service.getAllUsers();
+		List<UserVo> list = service.getAllUsers();
 		m.addAttribute("list", list);
 		return "user/viewuser"; //html page !!!!!!!!!!
 	}
 	
 	@RequestMapping(value = "/edit/{id}")
 	public String edit(@PathVariable Integer id, Model m) {
-		User emp = null;
+		UserVo emp = null;
 		emp = service.getUserById(id);
 		m.addAttribute("empVo", emp);
 		return "user/usereditform"; //html apage !!!!!!!!!
 	}
 	
 	@RequestMapping(value = "/editsave", method = RequestMethod.POST)
-	public String editsave(@ModelAttribute("empVo") User emp) {
-		service.save(emp);
+	public String editsave(@ModelAttribute("empVo") UserVo emp) {
+		service.save(UserConverter.toBo(emp));
 		return "redirect:viewuser";
 	}
 	
@@ -71,7 +73,7 @@ public class UserController2 {
 	
 	@RequestMapping("/nom/{choosennom}")
 	public String getNom(@PathVariable String choosennom, Model m) {
-		List<User> list = service.findByNom(choosennom);
+		List<UserVo> list = service.findByNom(choosennom);
 		m.addAttribute("list", list);
 		return "user/viewuser";
 	}
@@ -80,14 +82,14 @@ public class UserController2 {
 	
 	@RequestMapping("/pagination/{pageid}/{size}")
 	public String pagination(@PathVariable int pageid, @PathVariable int size, Model m) {
-		List<User> list = service.getAllUsers(pageid, size);
+		List<UserVo> list = service.getAllUsers(pageid, size);
 		m.addAttribute("list", list);
 		return "user/viewuser";
 	}
 	
 	@RequestMapping("/sort/{fieldName}")
 	public String sortBy(@PathVariable String fieldName, Model m) {
-		List<User> list = service.sortBy(fieldName);
+		List<UserVo> list = service.sortBy(fieldName);
 		m.addAttribute("list", list);
 		return "user/viewuser";
 	}

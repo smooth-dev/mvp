@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.ecommerceJee.demo.domaine.ArticleVo;
 import com.ecommerceJee.demo.exception.RecordNotFoundException;
-import com.ecommerceJee.demo.model.Article;
 import com.ecommerceJee.demo.service.ArticleService;
  
 @RestController
@@ -25,31 +25,31 @@ public class ArticleController
     ArticleService service;
  
     @GetMapping
-    public ResponseEntity<List<Article>> getAllArticles() {
-        List<Article> list = service.getAllArticles();
+    public ResponseEntity<List<ArticleVo>> getAllArticles() {
+        List<ArticleVo> list = service.getAllArticles();
  
-        return new ResponseEntity<List<Article>>(list, new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<List<ArticleVo>>(list, new HttpHeaders(), HttpStatus.OK);
     }
  
     @GetMapping("/{id}")
-    public ResponseEntity<Article> getArticleById(@PathVariable("id") Integer id)
+    public ResponseEntity<ArticleVo> getArticleById(@PathVariable("id") Integer id)
                                                     throws RecordNotFoundException {
-        Article entity = service.getArticleById(id);
+        ArticleVo entity = service.getArticleById(id);
  
-        return new ResponseEntity<Article>(entity, new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<ArticleVo>(entity, new HttpHeaders(), HttpStatus.OK);
     }
  
     @PostMapping
-    public ResponseEntity<Article> createOrUpdateArticle(Article article)
+    public ResponseEntity<ArticleVo> createOrUpdateArticle(ArticleVo article)
                                                     throws RecordNotFoundException {
-        Article updated = service.createOrUpdateArticle(article);
-        return new ResponseEntity<Article>(updated, new HttpHeaders(), HttpStatus.OK);
+        ArticleVo updated = service.createOrUpdateArticle(article);
+        return new ResponseEntity<ArticleVo>(updated, new HttpHeaders(), HttpStatus.OK);
     }
  
     @DeleteMapping("/{id}")
     public  ResponseEntity<Object> deleteArticleById(@PathVariable("id") Integer id)
                                                     throws RecordNotFoundException {
-    	Article empVoFound = service.getArticleById(id);
+    	ArticleVo empVoFound = service.getArticleById(id);
 		if (empVoFound == null)
 			return new ResponseEntity<>("Article doesn't exist", HttpStatus.OK);
 
@@ -59,15 +59,15 @@ public class ArticleController
     }
     
     @GetMapping(value = "/sort/{fieldName}")
-   	public ResponseEntity<List<Article>> sortBy(@PathVariable String fieldName) {
-       	 List<Article> list = service.sortBy(fieldName);
+   	public ResponseEntity<List<ArticleVo>> sortBy(@PathVariable String fieldName) {
+       	 List<ArticleVo> list = service.sortBy(fieldName);
        	 System.out.println(list);
        	 
-            return new ResponseEntity<List<Article>>(list, new HttpHeaders(), HttpStatus.OK);
+            return new ResponseEntity<List<ArticleVo>>(list, new HttpHeaders(), HttpStatus.OK);
    	}
        
        @GetMapping("/{pageid}/{size}")
-   	public List<Article> pagination(@PathVariable int pageid, @PathVariable int size, Model m) {
+   	public List<ArticleVo> pagination(@PathVariable int pageid, @PathVariable int size, Model m) {
    		return service.getAllArticles(pageid, size);
    	}
  

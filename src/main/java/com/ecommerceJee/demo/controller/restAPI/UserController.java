@@ -13,61 +13,61 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.ecommerceJee.demo.domaine.UserVo;
 import com.ecommerceJee.demo.exception.RecordNotFoundException;
-import com.ecommerceJee.demo.model.User;
 import com.ecommerceJee.demo.service.UserService;
  
 @RestController
-@RequestMapping("/Users")
+@RequestMapping("/UserVos")
 public class UserController
 {
     @Autowired
     UserService service;
  
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> list = service.getAllUsers();
+    public ResponseEntity<List<UserVo>> getAllUserVos() {
+        List<UserVo> list = service.getAllUsers();
  
-        return new ResponseEntity<List<User>>(list, new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<List<UserVo>>(list, new HttpHeaders(), HttpStatus.OK);
     }
  
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Integer id)
+    public ResponseEntity<UserVo> getUserVoById(@PathVariable("id") Integer id)
                                                     throws RecordNotFoundException {
-        User entity = service.getUserById(id);
+        UserVo entity = service.getUserById(id);
  
-        return new ResponseEntity<User>(entity, new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<UserVo>(entity, new HttpHeaders(), HttpStatus.OK);
     }
  
     @PostMapping
-    public ResponseEntity<User> createOrUpdateUser(User user)
+    public ResponseEntity<UserVo> createOrUpdateUserVo(UserVo user)
                                                     throws RecordNotFoundException {
-        User updated = service.createOrUpdateUser(user);
-        return new ResponseEntity<User>(updated, new HttpHeaders(), HttpStatus.OK);
+        UserVo updated = service.createOrUpdateUser(user);
+        return new ResponseEntity<UserVo>(updated, new HttpHeaders(), HttpStatus.OK);
     }
  
     @DeleteMapping("/{id}")
-    public  ResponseEntity<Object> deleteUserById(@PathVariable("id") Integer id)
+    public  ResponseEntity<Object> deleteUserVoById(@PathVariable("id") Integer id)
                                                     throws RecordNotFoundException {
-    	User empVoFound = service.getUserById(id);
+    	UserVo empVoFound = service.getUserById(id);
 		if (empVoFound == null)
-			return new ResponseEntity<>("User doesn't exist", HttpStatus.OK);
+			return new ResponseEntity<>("UserVo doesn't exist", HttpStatus.OK);
 
         service.deleteUserById(id);
-		return new ResponseEntity<>("User is deleted successsfully", HttpStatus.OK);
+		return new ResponseEntity<>("UserVo is deleted successsfully", HttpStatus.OK);
 
     }
     
     @GetMapping(value = "/sort/{fieldName}")
-   	public ResponseEntity<List<User>> sortBy(@PathVariable String fieldName) {
-       	 List<User> list = service.sortBy(fieldName);
+   	public ResponseEntity<List<UserVo>> sortBy(@PathVariable String fieldName) {
+       	 List<UserVo> list = service.sortBy(fieldName);
        	 System.out.println(list);
        	 
-            return new ResponseEntity<List<User>>(list, new HttpHeaders(), HttpStatus.OK);
+            return new ResponseEntity<List<UserVo>>(list, new HttpHeaders(), HttpStatus.OK);
    	}
        
        @GetMapping("/{pageid}/{size}")
-   	public List<User> pagination(@PathVariable int pageid, @PathVariable int size, Model m) {
+   	public List<UserVo> pagination(@PathVariable int pageid, @PathVariable int size, Model m) {
    		return service.getAllUsers(pageid, size);
    	}
  

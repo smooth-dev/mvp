@@ -7,6 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.ecommerceJee.demo.model.Article;
 import com.ecommerceJee.demo.model.Panier;
 import com.ecommerceJee.demo.model.Role;
@@ -35,6 +37,11 @@ public class DemoApplication  extends SpringBootServletInitializer implements Co
 		System.out.println("Application démarrée");
 	}
 	
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
 
 	@Override
 	/**
@@ -42,12 +49,13 @@ public class DemoApplication  extends SpringBootServletInitializer implements Co
 	 */
 	public void run(String... args) throws Exception {
 
-//		serviceArticle.deleteAll();
-//		servicePanier.deleteAll();
-//
-//		serviceUser.deleteAll();
-//		serviceRole.deleteAll();
+		serviceArticle.deleteAll();
+		servicePanier.deleteAll();
 
+		serviceUser.deleteAll();
+		serviceRole.deleteAll();
+
+		
  	
 		Article art1 = new Article("article1","article1",1,1);
 		Article art2 = new Article("article2","article2",2,2);
@@ -60,14 +68,14 @@ public class DemoApplication  extends SpringBootServletInitializer implements Co
 		
 		Panier panier1= new Panier();
 		Panier panier2= new Panier();
-
+ 
 	
 		
-		User  user1 = new User("user1","user1","user1");
-		User  user2 = new User("user2","user2","user2");
+		User  user1 = new User("admin","admin","admin","admin",true,true,true,true); 
+		User  user2 = new User("client","client","client","client",true,true,true,true);
 		
-		Role role1 = new Role("Admin");
-		Role role2 = new Role("Client");
+		Role role1 = new Role("ADMIN");
+		Role role2 = new Role("CLIENT");
 		
 		serviceRole.save(role1);
 		serviceRole.save(role2);
@@ -77,7 +85,7 @@ public class DemoApplication  extends SpringBootServletInitializer implements Co
 		List<Role> roles1= new ArrayList<Role>();
 		List<Role> roles2= new ArrayList<Role>();
 		roles1.add(role1);
-		roles2.add(role1);
+	//	roles2.add(role1);
 		roles2.add(role2);
 		user1.setRoles(roles1);
 		user2.setRoles(roles2);

@@ -9,5 +9,7 @@ import com.ecommerceJee.demo.model.User;
 public interface UserRepository
 extends JpaRepository<User, Integer> {
 List<User> findByNom(String nom);
+User findByUsername(String userName);
+
 //List<EmployeeEntity> findByFirstName(String name);
 }

@@ -10,6 +10,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.ecommerceJee.demo.domaine.RoleConverter;
+import com.ecommerceJee.demo.domaine.RoleVo;
+import com.ecommerceJee.demo.domaine.UserConverter;
 import com.ecommerceJee.demo.exception.RecordNotFoundException;
 import com.ecommerceJee.demo.model.Role;
 import com.ecommerceJee.demo.repository.RoleRepository;
@@ -20,14 +23,14 @@ public class RoleService
 	 @Autowired
 	    RoleRepository repository;
 	 
-	 public List<Role> getAllRoles()
+	 public List<RoleVo> getAllRoles()
 	    {
-	        List<Role> roleList = repository.findAll();
+	        List<RoleVo> roleList = RoleConverter.toVoList(repository.findAll());
 	         
 	        if(roleList.size() > 0) {
 	            return roleList;
 	        } else {
-	            return new ArrayList<Role>();
+	            return new ArrayList<RoleVo>();
 	        }
 	    }
 //	 public Role getRoleById(Integer id) throws RecordNotFoundException
@@ -41,14 +44,14 @@ public class RoleService
 //	        }
 //	    }
 	 
-	   public Role getRoleById(Integer id) {
+	   public RoleVo getRoleById(Integer id) {
 			boolean trouve = repository.existsById(id);
 			if (!trouve)
 				return null;
-			return repository.getOne(id);
+			return RoleConverter.toVo(repository.getOne(id));
 		}
 	 
-	 public Role createOrUpdateRole(Role entity) throws RecordNotFoundException
+	 public RoleVo createOrUpdateRole(RoleVo entity) throws RecordNotFoundException
 	    {
 	        Optional<Role> role = repository.findById(entity.getId());
 	         
@@ -56,40 +59,40 @@ public class RoleService
 	        {
 	            Role newEntity = role.get();
 	            newEntity.setLibelle(entity.getLibelle());
-	           
+	            newEntity.setUsers(UserConverter.toBoList(entity.getUsers()));
 
 	 
 	            newEntity = repository.save(newEntity);
 	             
-	            return newEntity;
+	            return entity;
 	        } else {
-	            entity = repository.save(entity);
-	             
+	            repository.save(RoleConverter.toBo(entity));
 	            return entity;
 	        }
 	    }
 	 
 	 
-	 public List<Role> getAllRoles(int pageId, int size) {
+	 public List<RoleVo> getAllRoles(int pageId, int size) {
 			Page<Role> result = repository.findAll(PageRequest.of(pageId, size, Direction.ASC, "libelle"));
-			return result.getContent();
+			return RoleConverter.toVoList(result.getContent());
 		}
 	 
-	 public List<Role> findByLibelle(String libelle) {
+	 public List<RoleVo> findByLibelle(String libelle) {
 			List<Role> list = repository.findByLibelle(libelle);
-			return list;
+			return RoleConverter.toVoList(list);
 		}
-	 public List<Role> sortBy(String fieldName) {
+	 
+	 public List<RoleVo> sortBy(String fieldName) {
 		 List<Role>  list =repository.findAll(Sort.by(fieldName));
-		return list;
+			return RoleConverter.toVoList(list);
 	}
 	 
 		 
 	 @Transactional
-	    public void save(Role entity) 
+	    public Role save(Role entity) 
 	    {
 	       
-	            repository.save(entity);     
+	            return repository.save(entity);     
 	        
 	    }
 	 

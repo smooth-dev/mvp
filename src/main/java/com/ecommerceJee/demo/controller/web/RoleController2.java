@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import com.ecommerceJee.demo.domaine.RoleConverter;
+import com.ecommerceJee.demo.domaine.RoleVo;
 import com.ecommerceJee.demo.model.Role;
 import com.ecommerceJee.demo.service.RoleService;
 
@@ -35,30 +37,30 @@ public class RoleController2 {
 	}
 	
 	@PostMapping(value = "/save")
-	public String save(@ModelAttribute("empVo") Role emp) {
+	public String save(@ModelAttribute("empVo") RoleVo emp) {
 		
-				service.save(emp);
+				service.save(RoleConverter.toBo(emp));
 		return "redirect:viewrole";// will redirect to viewrole request mapping
 	}
 	
 	@RequestMapping("/viewrole")
 	public String viewrole(Model m) {
-		List<Role> list = service.getAllRoles();
+		List<RoleVo> list = service.getAllRoles();
 		m.addAttribute("list", list);
 		return "role/viewrole"; //html page !!!!!!!!!!
 	}
 	
 	@RequestMapping(value = "/edit/{id}")
 	public String edit(@PathVariable Integer id, Model m) {
-		Role emp = null;
+		RoleVo emp = null;
 		emp = service.getRoleById(id);
 		m.addAttribute("empVo", emp);
 		return "role/roleeditform"; //html apage !!!!!!!!!
 	}
 	
 	@RequestMapping(value = "/editsave", method = RequestMethod.POST)
-	public String editsave(@ModelAttribute("empVo") Role emp) {
-		service.save(emp);
+	public String editsave(@ModelAttribute("empVo") RoleVo emp) {
+		service.save(RoleConverter.toBo(emp));
 		return "redirect:viewrole";
 	}
 	
@@ -71,7 +73,7 @@ public class RoleController2 {
 	
 	@RequestMapping("/libelle/{choosenlibelle}")
 	public String getLibelle(@PathVariable String choosenlibelle, Model m) {
-		List<Role> list = service.findByLibelle(choosenlibelle);
+		List<RoleVo> list = service.findByLibelle(choosenlibelle);
 		m.addAttribute("list", list);
 		return "role/viewrole";
 	}
@@ -80,14 +82,14 @@ public class RoleController2 {
 	
 	@RequestMapping("/pagination/{pageid}/{size}")
 	public String pagination(@PathVariable int pageid, @PathVariable int size, Model m) {
-		List<Role> list = service.getAllRoles(pageid, size);
+		List<RoleVo> list = service.getAllRoles(pageid, size);
 		m.addAttribute("list", list);
 		return "role/viewrole";
 	}
 	
 	@RequestMapping("/sort/{fieldName}")
 	public String sortBy(@PathVariable String fieldName, Model m) {
-		List<Role> list = service.sortBy(fieldName);
+		List<RoleVo> list = service.sortBy(fieldName);
 		m.addAttribute("list", list);
 		return "role/viewrole";
 	}
