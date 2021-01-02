@@ -27,7 +27,7 @@ Comment utiliser le projet :
 
 
 
- prochaines modifications:                    | 
+ prochaines modifications:                    |  etat
 -------------                                   | ------------------------
 Ajouter les VO                                  |  DONE
 Ajouter swagger pour documenter l'API           | 
