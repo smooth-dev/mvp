@@ -2,7 +2,7 @@
 
 <br /><br /><br />
 
-# mvpJee #
+# PROJET JAVA EE  #
 Comment utiliser le projet : 
 <br />
 
