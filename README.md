@@ -27,10 +27,11 @@ Comment utiliser le projet :
 
 
 
- prochaines modifications:                    |  etat
+ prochaines modifications:                      |  etat
 -------------                                   | ------------------------
 Ajouter les VO                                  |  DONE
-Ajouter swagger pour documenter l'API           | 
-Ajouter des regles de gestions (logique metier) |
-Preparer l'interface admin finale               |
-Spring security                                 |
+Verifier si l'API marche bien                   | 3
+Ajouter swagger pour documenter l'API           | 4 
+Ajouter des regles de gestions (logique metier) | 2
+Preparer l'interface admin finale               | 1
+Spring security                                 | DONE
